@@ -22,15 +22,34 @@ class MongoQuery(BaseModel):
 class MongoQueryGenerator(Agent):
     def __init__(self):
         super().__init__(
-
             model=OpenAIChat(id="gpt-4o-mini"),
-            #model=Ollama(id=MODEL_ID),
             instructions=[
                 "You are a MongoDB query generator. Based on the provided knowledge base, "
-                "generate a valid MongoDB query for a given natural language request.",
+                "generate **optimized** MongoDB queries for any given natural language request.",
                 f"Knowledge base: {json.dumps(KNOWLEDGE_BASE, indent=2)}",
-                "Output a JSON object with `query` and `collection` fields. if operation is count then show json count only",
-                "If required only fields like if required only usernames for a query then db.users.find({query},{name:1,_id:0})"
+                
+                "### 🔍 Query Generation Guidelines:",
+                "1️⃣ Identify the relevant collection(s) based on the query request.",
+                "2️⃣ If the request involves **filtering**, include appropriate `$match` conditions.",
+                "3️⃣ If the request requires **counting**, return a JSON object with `count` only.",
+                "4️⃣ If the request involves **aggregations** (e.g., total order amount per user), use the `$group` stage.",
+                "5️⃣ If the request involves **joins** (e.g., user order details), use `$lookup` to combine `users` and `orders` collections.",
+                "6️⃣ If a projection is needed (e.g., only usernames), return only required fields using `{ field_name: 1, _id: 0 }`.",
+                "7️⃣ Always return queries in **valid JSON format**.",
+                
+                "### 🔹 Handling Relations:",
+                "- The `orders.user_id` field references `users._id`.",
+                "- When retrieving orders, **always join with users** if user details are required.",
+                
+                "### 🔹 Examples:",
+                "- _Find all active users_: `db.users.find({ status: 'active' })`",
+                "- _Get total sales per user_: Use `$group` to sum `total` by `user_id`.",
+                "- _List users who placed orders_: Use `$lookup` to join `users` and `orders`.",
+                
+                "### ⚠️ Constraints:",
+                "- **Read-only queries** (no inserts, updates, or deletes).",
+                "- Always ensure valid MongoDB syntax."
             ],
             response_model=MongoQuery,
         )
+

@@ -5,7 +5,7 @@
         "fields": ["name", "email", "created_at", "status"]
     },
     "orders": {
-        "description": "Contains order information like order ID, user ID, and total amount.",
+        "description": "Contains order information like order ID, user_id pointing to the users collection object id, and total amount.",
         "fields": ["order_id", "user_id", "total", "status", "created_at"]
     }
 }
