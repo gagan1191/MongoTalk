@@ -185,11 +185,3 @@ typing-extensions
 git add README.md
 git commit -m "Updated README with setup and usage"
 git push origin main
-```
-3️⃣ **Share your MongoTalk repo!** 🚀🔥  
-
----
-
-Now your **GitHub repo looks professional and easy to follow!** 🎯  
-Let me know if you need any **customizations or refinements!** 🚀🔥
-```
