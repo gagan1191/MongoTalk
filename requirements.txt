@@ -1,0 +1,10 @@
+streamlit
+pymongo
+openai
+python-dotenv
+psycopg2-binary
+rich
+pydantic
+pathlib
+textwrap
+typing-extensions
