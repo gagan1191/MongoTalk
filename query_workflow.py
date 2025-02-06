@@ -132,11 +132,16 @@ class MongoDBQueryWorkflow(Workflow):
 
         yield RunResponse(
             event=RunEvent.run_completed,
-            content=f"Query generated: {json.dumps(query_response.content.query)} {json.dumps(query_response.content.operation)} for collection: {query_response.content.collection}\n",
+            content=json.dumps({
+            "query_generated": query_response.content.query,
+            "operation": query_response.content.operation,
+            "collection": query_response.content.collection
+        }, indent=2)
         )
 
+
         # Step 3: Execute the MongoDB query
-        yield RunResponse(event=RunEvent.run_started, content="Executing MongoDB query...")
+        #yield RunResponse(event=RunEvent.run_started, content="Executing MongoDB query...")
         try:
             db = self.mongo_client["test_db"]
             collection = db[query_response.content.collection]
@@ -171,4 +176,4 @@ class MongoDBQueryWorkflow(Workflow):
             return
 
         # Step 4: Workflow Completed
-        yield RunResponse(event=RunEvent.workflow_completed, content="Workflow completed successfully.")
+        #yield RunResponse(event=RunEvent.workflow_completed, content="Workflow completed successfully.")
