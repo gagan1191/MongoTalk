@@ -184,4 +184,8 @@ typing-extensions
 ```sh
 git add README.md
 git commit -m "Updated README with setup and usage"
+<<<<<<< Updated upstream
 git push origin main
+=======
+git push origin main
+>>>>>>> Stashed changes
